@@ -97,7 +97,6 @@ public class SheetActivity extends AppCompatActivity {
 
             rows[i].addView(rollTvs[i]);
             rows[i].addView(nameTvs[i]);
-            rows[i].setOverScrollMode();
 
             for (int j = 0; j <= dayInMonth; j++) {
                 statusTvs[i][j].setPadding(16, 16, 16, 16);
