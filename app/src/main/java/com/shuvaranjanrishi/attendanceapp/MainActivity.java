@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -81,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "populateRecyclerView: " + classItemList.toString());
         adapter = new ClassAdapter(mActivity, classItemList);
         classRv.setAdapter(adapter);
+        if(classItemList.size()>1) classRv.setLayoutManager(new GridLayoutManager(this, 2));
+        if(classItemList.size()>2) classRv.setLayoutManager(new GridLayoutManager(this, 3));
         adapter.setListener(this::gotoStudentActivity);
     }
 
