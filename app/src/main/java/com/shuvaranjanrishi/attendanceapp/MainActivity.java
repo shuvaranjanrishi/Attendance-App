@@ -84,11 +84,11 @@ public class MainActivity extends AppCompatActivity {
         classRv.setAdapter(adapter);
         if(classItemList.size()>1) classRv.setLayoutManager(new GridLayoutManager(this, 2));
         if(classItemList.size()>2) classRv.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter.setListener(this::gotoStudentActivity);
+        adapter.setListener(this::gotoClassHomeActivity);
     }
 
-    private void gotoStudentActivity(int position) {
-        Intent intent = new Intent(mActivity, StudentsActivity.class);
+    private void gotoClassHomeActivity(int position) {
+        Intent intent = new Intent(mActivity, ClassHomeActivity.class);
         intent.putExtra("ClassName", classItemList.get(position).getClassName());
         intent.putExtra("SubjectName", classItemList.get(position).getSubjectName());
         intent.putExtra("CID", classItemList.get(position).getCid());

@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentsActivity extends AppCompatActivity {
+public class TakeAttendanceActivity extends AppCompatActivity {
 
-    private static final String TAG = StudentsActivity.class.getCanonicalName();
+    private static final String TAG = TakeAttendanceActivity.class.getCanonicalName();
 
     private Activity mActivity;
     private ImageButton backBtn, pickDateBtn, saveBtn, showAttendanceBtn, studentAddBtn;
@@ -213,7 +213,7 @@ public class StudentsActivity extends AppCompatActivity {
     }
 
     private void initVariables() {
-        mActivity = StudentsActivity.this;
+        mActivity = TakeAttendanceActivity.this;
         studentList = new ArrayList<>();
         dbHelper = new MyDBHelper(mActivity);
         calender = new MyCalender();

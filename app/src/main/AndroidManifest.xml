@@ -14,13 +14,19 @@
         android:theme="@style/Theme.AttendanceApp"
         tools:targetApi="31">
         <activity
+            android:name=".StudentListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ClassHomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".SheetActivity"
             android:exported="false" />
         <activity
             android:name=".SheetListActivity"
             android:exported="false" />
         <activity
-            android:name=".StudentsActivity"
+            android:name=".TakeAttendanceActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
