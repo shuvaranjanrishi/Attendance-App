@@ -47,6 +47,7 @@ public class ClassHomeActivity extends AppCompatActivity {
     private void gotoStudentListActivity() {
         Intent intent = new Intent(mActivity, StudentListActivity.class);
         intent.putExtra("ClassName", className);
+        intent.putExtra("CID", cid);
         startActivity(intent);
     }
 

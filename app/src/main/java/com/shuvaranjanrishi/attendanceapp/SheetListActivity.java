@@ -25,7 +25,7 @@ public class SheetListActivity extends AppCompatActivity {
     private TextView titleTv, dateTv;
     private RecyclerView studentsRv;
     private List<String> dateList;
-    private StudentAdapter adapter;
+    private AttendanceAdapter adapter;
     private MyDBHelper dbHelper;
     private MyCalender calender;
     private ListView sheetListView;

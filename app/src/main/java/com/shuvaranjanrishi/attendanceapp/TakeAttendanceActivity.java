@@ -23,11 +23,11 @@ public class TakeAttendanceActivity extends AppCompatActivity {
     private static final String TAG = TakeAttendanceActivity.class.getCanonicalName();
 
     private Activity mActivity;
-    private ImageButton backBtn, pickDateBtn, saveBtn, showAttendanceBtn, studentAddBtn;
+    private ImageButton backBtn, pickDateBtn, saveBtn, showAttendanceBtn;
     private TextView titleTv, dateTv;
     private RecyclerView studentsRv;
     private List<Student> studentList;
-    private StudentAdapter adapter;
+    private AttendanceAdapter adapter;
     private MyDBHelper dbHelper;
     private MyCalender calender;
     //intent data
@@ -88,8 +88,6 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(view -> onSaveBtnClickAction());
 
         showAttendanceBtn.setOnClickListener(view -> openAttendanceSheet());
-
-        studentAddBtn.setOnClickListener(view -> showStudentAddDialog());
     }
 
     private void onSaveBtnClickAction() {
@@ -165,30 +163,9 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         loadStatus();
     }
 
-    private void showStudentAddDialog() {
-        MyDialog dialog = new MyDialog();
-        dialog.show(getSupportFragmentManager(), MyDialog.STUDENT_ADD_DIALOG);
-        dialog.setListener(this::addStudent);
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private void addStudent(String rollString, String name) {
-        int roll = Integer.valueOf(rollString);
-        long sid = dbHelper.addStudent(cid, roll, name);
-        if (sid > 0) {
-            studentList.add(new Student(sid, roll, name));
-            adapter.notifyDataSetChanged();
-            Log.d(TAG, "addStudent: "+studentList.toString());
-            Toast.makeText(mActivity, "New Student Added...", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(mActivity, "Failed to Add...", Toast.LENGTH_LONG).show();
-        }
-
-    }
-
     private void populateRecyclerView() {
         Log.d(TAG, "populateRecyclerView: " + studentList.toString());
-        adapter = new StudentAdapter(mActivity, studentList);
+        adapter = new AttendanceAdapter(mActivity, studentList);
         studentsRv.setAdapter(adapter);
         adapter.setListener(this::changeAttendanceStatus);
     }
@@ -207,7 +184,6 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         pickDateBtn = findViewById(R.id.pickDateBtn);
         saveBtn = findViewById(R.id.saveBtn);
-        studentAddBtn = findViewById(R.id.studentAddBtn);
         showAttendanceBtn = findViewById(R.id.showAttendanceBtn);
         studentsRv = findViewById(R.id.studentsRv);
     }

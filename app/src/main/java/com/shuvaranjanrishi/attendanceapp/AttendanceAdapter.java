@@ -1,7 +1,7 @@
 package com.shuvaranjanrishi.attendanceapp;
 
 /*
-    Created by Shuva Ranjan Rishi on 11/23/2022
+    Created by Shuva Ranjan Rishi on 11/18/2022
 */
 
 import android.content.Context;
@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHolder> {
+public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.ViewHolder> {
 
     private final Context mContext;
     private final List<Student> studentList;
@@ -33,7 +33,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         this.listener = listener;
     }
 
-    public StudentAdapter(Context mContext, List<Student> studentList) {
+    public AttendanceAdapter(Context mContext, List<Student> studentList) {
         this.mContext = mContext;
         this.studentList = studentList;
     }
@@ -41,7 +41,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_student, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_attendance, parent, false);
         return new ViewHolder(view, listener);
     }
 
@@ -52,7 +52,17 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
 
             holder.rollTv.setText("" + student.getRoll());
             holder.nameTv.setText("" + student.getName());
+            holder.statusTv.setText("" + student.getStatus());
+            holder.itemView.setBackgroundColor(getColor(student.getStatus()));
         }
+    }
+
+    private int getColor(String status) {
+        if (status.equals("P"))
+            return Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(mContext, R.color.presentColor)));
+        else if (status.equals("A"))
+            return Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(mContext, R.color.absentColor)));
+        return Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(mContext, R.color.white)));
     }
 
     @Override
@@ -60,15 +70,18 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         return studentList == null ? 0 : studentList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
 
-        public TextView rollTv, nameTv;
+        public TextView rollTv, nameTv, statusTv;
+        public CardView cardView;
 
         public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
 
             rollTv = itemView.findViewById(R.id.rollTv);
             nameTv = itemView.findViewById(R.id.nameTv);
+            statusTv = itemView.findViewById(R.id.statusTv);
+            cardView = itemView.findViewById(R.id.cardView);
 
             itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));
             itemView.setOnCreateContextMenuListener(this);
@@ -76,8 +89,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
 
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            contextMenu.add(getAdapterPosition(), 0, 0, "Edit");
-            contextMenu.add(getAdapterPosition(), 1, 0, "Delete");
+            contextMenu.add(getAdapterPosition(),0,0,"Edit");
+            contextMenu.add(getAdapterPosition(),1,0,"Delete");
         }
     }
 }
