@@ -85,11 +85,26 @@ public class StudentsActivity extends AppCompatActivity {
 
         pickDateBtn.setOnClickListener(view -> showCalenderDialog());
 
-        saveBtn.setOnClickListener(view -> saveAttendanceStatus());
+        saveBtn.setOnClickListener(view -> onSaveBtnClickAction());
 
         showAttendanceBtn.setOnClickListener(view -> openAttendanceSheet());
 
         studentAddBtn.setOnClickListener(view -> showStudentAddDialog());
+    }
+
+    private void onSaveBtnClickAction() {
+        int totalPresent = 0;
+        int totalAbsent =0;
+
+        for (Student student : studentList) {
+            String status = student.getStatus();
+            if (status.equals("P")) totalPresent++;
+            if (!status.equals("P")) totalAbsent++;
+        }
+
+        MyDialog dialog = new MyDialog("Save Attendance","Total Present: "+totalPresent+"\n\nTotal Absent: "+totalAbsent);
+        dialog.show(getSupportFragmentManager(),MyDialog.CONFIRM_DIALOG);
+        dialog.setConfirmListener(this::onConfirmClick);
     }
 
     private void openAttendanceSheet() {
@@ -121,6 +136,12 @@ public class StudentsActivity extends AppCompatActivity {
             if (rowId == -1) {
                 dbHelper.updateStatus(student.getSid(), calender.getDate(), status);
             }
+        }
+    }
+
+    private void onConfirmClick(boolean confirmation) {
+        if(confirmation){
+            saveAttendanceStatus();
         }
     }
 

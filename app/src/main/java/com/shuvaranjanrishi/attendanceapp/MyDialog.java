@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +25,9 @@ public class MyDialog extends DialogFragment {
     public static final String CLASS_UPDATE_DIALOG = "updateClass";
     public static final String STUDENT_ADD_DIALOG = "addStudent";
     public static final String STUDENT_UPDATE_DIALOG = "updateStudent";
+    public static final String CONFIRM_DIALOG = "confirmDialog";
     private OnClickListener listener;
+    private OnConfirmListener confirmListener;
 
     private String text1, text2;
 
@@ -40,6 +43,14 @@ public class MyDialog extends DialogFragment {
         void onClick(String text1, String text2);
     }
 
+    public interface OnConfirmListener {
+        void onConfirmClick(boolean confirmation);
+    }
+
+    public void setConfirmListener(OnConfirmListener confirmListener) {
+        this.confirmListener = confirmListener;
+    }
+
     public void setListener(OnClickListener listener) {
         this.listener = listener;
     }
@@ -53,6 +64,7 @@ public class MyDialog extends DialogFragment {
         if (getTag().equals(CLASS_UPDATE_DIALOG)) dialog = getClassUpdateDialog();
         if (getTag().equals(STUDENT_ADD_DIALOG)) dialog = getStudentAddDialog();
         if (getTag().equals(STUDENT_UPDATE_DIALOG)) dialog = getStudentUpdateDialog();
+        if (getTag().equals(CONFIRM_DIALOG)) dialog = getGetConfirmDialog();
 
         return dialog;
     }
@@ -104,9 +116,11 @@ public class MyDialog extends DialogFragment {
 
         EditText classNameEt = view.findViewById(R.id.edittext1);
         classNameEt.setHint("Class Name");
+        classNameEt.setText(text1);
 
         EditText subjectNameEt = view.findViewById(R.id.edittext2);
         subjectNameEt.setHint("Subject Name");
+        subjectNameEt.setText(text2);
 
         Button cancelBtn = view.findViewById(R.id.cancelBtn);
         Button saveBtn = view.findViewById(R.id.saveBtn);
@@ -188,6 +202,37 @@ public class MyDialog extends DialogFragment {
             if (listener != null) {
                 listener.onClick(roll, name);
             }
+        });
+
+        return builder.create();
+    }
+
+    private Dialog getGetConfirmDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.my_confirm_dialog, null);
+        builder.setView(view);
+
+        TextView titleTv = view.findViewById(R.id.titleTv);
+        titleTv.setText(text1);
+
+        TextView messageTv = view.findViewById(R.id.messageTv);
+        messageTv.setText(text2);
+
+        Button cancelBtn = view.findViewById(R.id.cancelBtn);
+        Button yesBtn = view.findViewById(R.id.yesBtn);
+
+        cancelBtn.setOnClickListener(view1 -> {
+            if (confirmListener != null) {
+                confirmListener.onConfirmClick(false);
+            }
+            dismiss();
+        });
+
+        yesBtn.setOnClickListener(view12 -> {
+            if (confirmListener != null) {
+                confirmListener.onConfirmClick(true);
+            }
+            dismiss();
         });
 
         return builder.create();

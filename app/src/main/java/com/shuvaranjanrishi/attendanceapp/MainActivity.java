@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showClassUpdateDialog(int position) {
-        MyDialog dialog = new MyDialog();
+        MyDialog dialog = new MyDialog(classItemList.get(position).getClassName(),classItemList.get(position).getSubjectName());
         dialog.show(getSupportFragmentManager(), MyDialog.CLASS_UPDATE_DIALOG);
         dialog.setListener((className, subjectName) -> updateClass(position, className, subjectName));
     }
