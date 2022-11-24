@@ -38,8 +38,11 @@
     <ListView
         android:id="@+id/sheetListView"
         android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/dimen_5dp"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
+        android:layout_marginEnd="@dimen/dimen_5dp"
+        android:dividerHeight="@dimen/dimen_2dp"
         android:layout_marginTop="@dimen/dimen_5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_sheet_list" />
