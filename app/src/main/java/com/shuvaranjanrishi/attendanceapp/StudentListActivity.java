@@ -72,7 +72,6 @@ public class StudentListActivity extends AppCompatActivity {
 
     private void populateRecyclerView() {
         Log.d(TAG, "populateRecyclerView: " + studentList.toString());
-        Toast.makeText(mActivity, "" + studentList.size(), Toast.LENGTH_SHORT).show();
         adapter = new StudentAdapter(mActivity, studentList);
         studentListRv.setAdapter(adapter);
         adapter.setListener(this::onItemClick);

@@ -21,6 +21,11 @@
             android:padding="@dimen/dimen_5dp"
             android:src="@drawable/ic_baseline_menu_book_24" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_2dp"
+            android:background="@color/purple_200" />
+
         <TextView
             android:id="@+id/classNameTv"
             android:layout_width="wrap_content"
