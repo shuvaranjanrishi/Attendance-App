@@ -23,6 +23,7 @@ public class StudentListActivity extends AppCompatActivity {
     private static final String TAG = StudentListActivity.class.getCanonicalName();
 
     private Activity mActivity;
+    private ImageButton backBtn;
     private TextView titleTv;
     private ImageButton studentAddBtn;
     private List<Student> studentList;
@@ -80,6 +81,7 @@ public class StudentListActivity extends AppCompatActivity {
     }
 
     private void initListener() {
+        backBtn.setOnClickListener(v -> onBackPressed());
         studentAddBtn.setOnClickListener(view -> showStudentAddDialog());
     }
 
@@ -119,6 +121,7 @@ public class StudentListActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        backBtn = findViewById(R.id.backBtn);
         titleTv = findViewById(R.id.titleTv);
         studentAddBtn = findViewById(R.id.studentAddBtn);
         studentListRv = findViewById(R.id.studentListRv);

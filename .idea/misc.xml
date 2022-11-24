@@ -3,14 +3,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.1" />
-        <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_class_home.xml" value="0.209375" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.1705" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/drawable/ic_baseline_list_alt_24.xml" value="0.1705" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/drawable/ic_baseline_menu_book_24.xml" value="0.1705" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1085" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/layout/activity_class_home.xml" value="0.264" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/layout/activity_main.xml" value="0.1671875" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/layout/activity_student_list.xml" value="0.1671875" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/layout/activity_students.xml" value="0.264" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/layout/activity_take_attendance.xml" value="0.1671875" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/layout/item_class.xml" value="0.1671875" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/layout/item_student.xml" value="0.2" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/layout/my_confirm_dialog.xml" value="0.264" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/layout/my_dialog.xml" value="0.1671875" />
+        <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/menu/option_menu.xml" value="0.1671875" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_main.xml" value="0.21" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_sheet.xml" value="0.33" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_sheet_list.xml" value="0.209375" />
-        <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_student_list.xml" value="0.209375" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_students.xml" value="0.25" />
-        <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/item_attendance.xml" value="0.33" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/item_class.xml" value="0.33" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/item_sheet_list.xml" value="0.209375" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/item_student.xml" value="0.33" />
@@ -18,7 +28,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

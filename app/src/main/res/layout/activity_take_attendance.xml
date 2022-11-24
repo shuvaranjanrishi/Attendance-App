@@ -26,7 +26,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/pickDateBtn"
+            android:layout_toStartOf="@id/saveBtn"
             android:layout_toEndOf="@id/backBtn"
             android:gravity="center"
             android:orientation="vertical">
@@ -52,32 +52,23 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/pickDateBtn"
-            android:layout_width="@dimen/dimen_40dp"
-            android:layout_height="@dimen/dimen_40dp"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/saveBtn"
-            android:background="@null"
-            android:src="@drawable/ic_outline_date_range_24" />
-
-        <ImageButton
             android:id="@+id/saveBtn"
             android:layout_width="@dimen/dimen_40dp"
             android:layout_height="@dimen/dimen_40dp"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/showAttendanceBtn"
+            android:layout_toStartOf="@+id/moreBtn"
             android:background="@null"
             android:src="@drawable/ic_baseline_save_24" />
 
         <ImageButton
-            android:id="@+id/showAttendanceBtn"
+            android:id="@+id/moreBtn"
             android:layout_width="@dimen/dimen_40dp"
             android:layout_height="@dimen/dimen_40dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dimen_10dp"
             android:background="@null"
-            android:src="@drawable/ic_baseline_list_alt_24" />
+            android:src="@drawable/ic_outline_more_vert_24" />
     </RelativeLayout>
 
     <TableLayout
