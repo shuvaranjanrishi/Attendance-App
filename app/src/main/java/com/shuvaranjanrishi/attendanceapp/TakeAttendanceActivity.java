@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +20,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
     private static final String TAG = TakeAttendanceActivity.class.getCanonicalName();
 
     private Activity mActivity;
-    private ImageButton backBtn, saveBtn, showAttendanceBtn, moreBtn;
+    private ImageButton backBtn, saveBtn, moreBtn;
     private TextView titleTv, dateTv;
     private RecyclerView studentsRv;
     private List<Student> studentList;
@@ -96,7 +93,10 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         popup.setOnMenuItemClickListener(item -> {
 
             if (item.getItemId() == R.id.presentAllMenu) {
-
+                presentAllStudent();
+            }
+            if (item.getItemId() == R.id.absentAllMenu) {
+                absentAllStudent();
             }
             if (item.getItemId() == R.id.datePickMenu) {
                 showCalenderDialog();
@@ -106,6 +106,20 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         });
 
         popup.show();
+    }
+
+    private void presentAllStudent() {
+        for (Student student : studentList) {
+            student.setStatus("P");
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void absentAllStudent() {
+        for (Student student : studentList) {
+            student.setStatus("A");
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void onSaveBtnClickAction() {
@@ -190,55 +204,5 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         studentList = new ArrayList<>();
         dbHelper = new MyDBHelper(mActivity);
         calender = new MyCalender();
-    }
-
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        if (item.getTitle() == "Yellow") {
-            Toast.makeText(mActivity, "yellow", Toast.LENGTH_SHORT).show();
-
-        } else if (item.getTitle() == "Gray") {
-
-        } else if (item.getTitle() == "Cyan") {
-
-        }
-        switch (item.getItemId()) {
-            case 0:
-                showStudentUpdateDialog(item.getGroupId());
-                break;
-            case 1:
-                deleteStudent(item.getGroupId());
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    private void showStudentUpdateDialog(int position) {
-        MyDialog dialog = new MyDialog(String.valueOf(studentList.get(position).getRoll()), studentList.get(position).getName());
-        dialog.show(getSupportFragmentManager(), MyDialog.STUDENT_UPDATE_DIALOG);
-        dialog.setListener((roll, name) -> updateStudent(position, name));
-    }
-
-    private void updateStudent(int position, String name) {
-        int rowId = dbHelper.updateStudent(studentList.get(position).getSid(), name);
-        if (rowId > 0) {
-            studentList.get(position).setName(name);
-            adapter.notifyItemChanged(position);
-            Toast.makeText(mActivity, "Student Successfully Updated...", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(mActivity, "Student Not Updated...", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void deleteStudent(int position) {
-        int rowId = dbHelper.deleteStudent(studentList.get(position).getSid());
-        if (rowId > 0) {
-            studentList.remove(position);
-//            adapter.notifyItemChanged(position);
-            adapter.notifyDataSetChanged();
-            Toast.makeText(mActivity, "Student Successfully Deleted...", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(mActivity, "Student Not Deleted...", Toast.LENGTH_LONG).show();
-        }
     }
 }
