@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/grey"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ClassHomeActivity">
@@ -47,6 +48,7 @@
             android:gravity="center">
 
             <androidx.cardview.widget.CardView
+                android:layout_marginTop="@dimen/dimen_10dp"
                 android:id="@+id/attendanceSheetCv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,6 +70,11 @@
                         android:padding="@dimen/dimen_5dp"
                         android:src="@drawable/ic_baseline_list_alt_24" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_2dp"
+                        android:background="@color/purple_200" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -85,6 +92,7 @@
             android:gravity="center">
 
             <androidx.cardview.widget.CardView
+                android:layout_marginTop="@dimen/dimen_5dp"
                 android:id="@+id/studentsCv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,6 +114,11 @@
                         android:padding="@dimen/dimen_5dp"
                         android:src="@drawable/ic_baseline_person_24" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_2dp"
+                        android:background="@color/purple_200" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -116,6 +129,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:layout_marginTop="@dimen/dimen_5dp"
                 android:id="@+id/attendanceCv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,6 +150,11 @@
                         android:layout_height="@dimen/dimen_100dp"
                         android:padding="@dimen/dimen_5dp"
                         android:src="@drawable/ic_outline_book_24" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_2dp"
+                        android:background="@color/purple_200" />
 
                     <TextView
                         android:layout_width="wrap_content"

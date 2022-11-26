@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -122,6 +123,10 @@ public class SheetActivity extends AppCompatActivity {
         nameArray = getIntent().getStringArrayExtra("nameArray");
         month = getIntent().getStringExtra("month");
         dateTv.setText(month);
+        Log.d(TAG,"id: "+idArray.length);
+        Log.d(TAG,"rollArray: "+rollArray.length);
+        Log.d(TAG,"nameArray: "+nameArray.length);
+        Log.d(TAG,"month: "+month);
     }
 
     private void initViews() {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/cardView"
     android:layout_marginStart="@dimen/dimen_5dp"
     android:layout_marginEnd="@dimen/dimen_5dp"
     android:layout_marginBottom="@dimen/dimen_5dp"
@@ -16,13 +16,13 @@
         android:padding="@dimen/dimen_5dp">
 
         <ImageView
+            android:id="@+id/slNoTv"
             android:layout_width="@dimen/dimen_45dp"
             android:layout_height="@dimen/dimen_45dp"
             android:layout_gravity="center_vertical"
-            android:id="@+id/slNoTv"
             android:background="@drawable/bg_oval_primary"
-            android:src="@drawable/ic_outline_date_range_24"
             android:padding="@dimen/dimen_10dp"
+            android:src="@drawable/ic_outline_date_range_24"
             android:textSize="@dimen/dimen_20sp"
             android:textStyle="bold" />
 
