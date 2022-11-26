@@ -1,15 +1,15 @@
 package com.shuvaranjanrishi.attendanceapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +19,11 @@ public class ClassHomeActivity extends AppCompatActivity {
     private static final String TAG = ClassHomeActivity.class.getCanonicalName();
 
     private Activity mActivity;
+    private ImageButton backBtn;
     private TextView titleTv;
-    private CardView studentsCv, attendanceCv;
+    private CardView attendanceSheetCv, studentsCv, attendanceCv;
+    private MyDBHelper dbHelper;
+    private List<Student> studentList;
     //intent data
     private String className, subjectName;
     private long cid, position;
@@ -36,12 +39,51 @@ public class ClassHomeActivity extends AppCompatActivity {
 
         getIntentData();
 
+        getStudentList();
+
         initListener();
     }
 
+    private void getStudentList() {
+        Cursor cursor = dbHelper.getStudentList(cid);
+
+        studentList.clear();
+        while (cursor.moveToNext()) {
+            long sid = cursor.getLong(0);
+            String name = cursor.getString(2);
+            int roll = cursor.getInt(3);
+            Student student = new Student(sid, roll, name);
+            studentList.add(student);
+        }
+        Log.d(TAG,"getStudentList: "+studentList.toString());
+        cursor.close();
+    }
+
     private void initListener() {
+        backBtn.setOnClickListener(v -> onBackPressed());
+        attendanceSheetCv.setOnClickListener(v -> goToSheetListActivity());
         studentsCv.setOnClickListener(v -> gotoStudentListActivity());
         attendanceCv.setOnClickListener(v -> gotoTakeAttendanceActivity());
+    }
+
+    private void goToSheetListActivity() {
+        long[] idArray, rollArray;
+        String[] nameArray;
+        idArray = new long[studentList.size()];
+        rollArray = new long[studentList.size()];
+        nameArray = new String[studentList.size()];
+
+        for (int i = 0; i < studentList.size(); i++) {
+            idArray[i] = studentList.get(i).getSid();
+            rollArray[i] = studentList.get(i).getRoll();
+            nameArray[i] = studentList.get(i).getName();
+        }
+        Intent intent = new Intent(mActivity, SheetListActivity.class);
+        intent.putExtra("CID", cid);
+        intent.putExtra("idArray", idArray);
+        intent.putExtra("rollArray", rollArray);
+        intent.putExtra("nameArray", nameArray);
+        startActivity(intent);
     }
 
     private void gotoStudentListActivity() {
@@ -62,6 +104,8 @@ public class ClassHomeActivity extends AppCompatActivity {
 
     private void initVariables() {
         mActivity = ClassHomeActivity.this;
+        studentList = new ArrayList<>();
+        dbHelper = new MyDBHelper(mActivity);
     }
 
     private void getIntentData() {
@@ -74,7 +118,9 @@ public class ClassHomeActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        backBtn = findViewById(R.id.backBtn);
         titleTv = findViewById(R.id.titleTv);
+        attendanceSheetCv = findViewById(R.id.attendanceSheetCv);
         studentsCv = findViewById(R.id.studentsCv);
         attendanceCv = findViewById(R.id.attendanceCv);
     }

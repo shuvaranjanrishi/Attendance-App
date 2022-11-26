@@ -1,8 +1,5 @@
 package com.shuvaranjanrishi.attendanceapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +10,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class SheetListActivity extends AppCompatActivity {
     private static final String TAG = SheetListActivity.class.getCanonicalName();
 
     private Activity mActivity;
-    private ImageButton backBtn, pickDateBtn, saveBtn, studentAddBtn;
+    private ImageButton backBtn, saveBtn, studentAddBtn;
     private TextView titleTv, dateTv;
     private RecyclerView studentsRv;
     private List<String> dateList;
@@ -73,7 +73,6 @@ public class SheetListActivity extends AppCompatActivity {
         titleTv = findViewById(R.id.titleTv);
         dateTv = findViewById(R.id.dateTv);
         backBtn = findViewById(R.id.backBtn);
-        pickDateBtn = findViewById(R.id.pickDateBtn);
         saveBtn = findViewById(R.id.saveBtn);
         sheetListView = findViewById(R.id.sheetListView);
         studentAddBtn = findViewById(R.id.studentAddBtn);
@@ -83,7 +82,7 @@ public class SheetListActivity extends AppCompatActivity {
     private void initVariables() {
         mActivity=SheetListActivity.this;
         dbHelper = new MyDBHelper(mActivity);
-        dateList = new ArrayList();
+        dateList = new ArrayList<>();
     }
 
     private void initListeners() {

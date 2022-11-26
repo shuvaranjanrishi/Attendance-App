@@ -1,17 +1,14 @@
 package com.shuvaranjanrishi.attendanceapp;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +20,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
     private static final String TAG = TakeAttendanceActivity.class.getCanonicalName();
 
     private Activity mActivity;
-    private ImageButton backBtn, pickDateBtn, saveBtn, showAttendanceBtn;
+    private ImageButton backBtn, saveBtn, moreBtn;
     private TextView titleTv, dateTv;
     private RecyclerView studentsRv;
     private List<Student> studentList;
@@ -37,7 +34,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_students);
+        setContentView(R.layout.activity_take_attendance);
 
         initViews();
 
@@ -83,16 +80,51 @@ public class TakeAttendanceActivity extends AppCompatActivity {
     private void initListeners() {
         backBtn.setOnClickListener(view -> onBackPressed());
 
-        pickDateBtn.setOnClickListener(view -> showCalenderDialog());
-
         saveBtn.setOnClickListener(view -> onSaveBtnClickAction());
 
-        showAttendanceBtn.setOnClickListener(view -> openAttendanceSheet());
+        moreBtn.setOnClickListener(v -> showPopupMenu());
+
+    }
+
+    private void showPopupMenu() {
+        PopupMenu popup = new PopupMenu(mActivity, moreBtn);
+        popup.getMenuInflater().inflate(R.menu.option_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(item -> {
+
+            if (item.getItemId() == R.id.presentAllMenu) {
+                presentAllStudent();
+            }
+            if (item.getItemId() == R.id.absentAllMenu) {
+                absentAllStudent();
+            }
+            if (item.getItemId() == R.id.datePickMenu) {
+                showCalenderDialog();
+            }
+
+            return true;
+        });
+
+        popup.show();
+    }
+
+    private void presentAllStudent() {
+        for (Student student : studentList) {
+            student.setStatus("P");
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void absentAllStudent() {
+        for (Student student : studentList) {
+            student.setStatus("A");
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void onSaveBtnClickAction() {
         int totalPresent = 0;
-        int totalAbsent =0;
+        int totalAbsent = 0;
 
         for (Student student : studentList) {
             String status = student.getStatus();
@@ -103,26 +135,6 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         MyDialog dialog = new MyDialog("Save Attendance","Total Present: "+totalPresent+"\n\nTotal Absent: "+totalAbsent);
         dialog.show(getSupportFragmentManager(),MyDialog.CONFIRM_DIALOG);
         dialog.setConfirmListener(this::onConfirmClick);
-    }
-
-    private void openAttendanceSheet() {
-        long[] idArray,rollArray;
-        String[] nameArray;
-        idArray = new long[studentList.size()];
-        rollArray = new long[studentList.size()];
-        nameArray = new String[studentList.size()];
-
-        for (int i=0;i<studentList.size();i++){
-            idArray[i] = studentList.get(i).getSid();
-            rollArray[i] = studentList.get(i).getRoll();
-            nameArray[i] = studentList.get(i).getName();
-        }
-        Intent intent = new Intent(mActivity, SheetListActivity.class);
-        intent.putExtra("CID", cid);
-        intent.putExtra("idArray",idArray);
-        intent.putExtra("rollArray",rollArray);
-        intent.putExtra("nameArray",nameArray);
-        startActivity(intent);
     }
 
     private void saveAttendanceStatus() {
@@ -182,9 +194,8 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         titleTv = findViewById(R.id.titleTv);
         dateTv = findViewById(R.id.dateTv);
         backBtn = findViewById(R.id.backBtn);
-        pickDateBtn = findViewById(R.id.pickDateBtn);
         saveBtn = findViewById(R.id.saveBtn);
-        showAttendanceBtn = findViewById(R.id.showAttendanceBtn);
+        moreBtn = findViewById(R.id.moreBtn);
         studentsRv = findViewById(R.id.studentsRv);
     }
 
@@ -193,47 +204,5 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         studentList = new ArrayList<>();
         dbHelper = new MyDBHelper(mActivity);
         calender = new MyCalender();
-    }
-
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case 0:
-                showStudentUpdateDialog(item.getGroupId());
-                break;
-            case 1:
-                deleteStudent(item.getGroupId());
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    private void showStudentUpdateDialog(int position) {
-        MyDialog dialog = new MyDialog(String.valueOf(studentList.get(position).getRoll()), studentList.get(position).getName());
-        dialog.show(getSupportFragmentManager(), MyDialog.STUDENT_UPDATE_DIALOG);
-        dialog.setListener((roll, name) -> updateStudent(position, name));
-    }
-
-    private void updateStudent(int position, String name) {
-        int rowId = dbHelper.updateStudent(studentList.get(position).getSid(), name);
-        if (rowId > 0) {
-            studentList.get(position).setName(name);
-            adapter.notifyItemChanged(position);
-            Toast.makeText(mActivity, "Student Successfully Updated...", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(mActivity, "Student Not Updated...", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void deleteStudent(int position) {
-        int rowId = dbHelper.deleteStudent(studentList.get(position).getSid());
-        if (rowId > 0) {
-            studentList.remove(position);
-//            adapter.notifyItemChanged(position);
-            adapter.notifyDataSetChanged();
-            Toast.makeText(mActivity, "Student Successfully Deleted...", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(mActivity, "Student Not Deleted...", Toast.LENGTH_LONG).show();
-        }
     }
 }

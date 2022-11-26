@@ -69,7 +69,7 @@ public class SheetActivity extends AppCompatActivity {
         rollTvs[0].setTypeface(rollTvs[0].getTypeface(), Typeface.BOLD);
         nameTvs[0].setText("Name");
         nameTvs[0].setTypeface(nameTvs[0].getTypeface(), Typeface.BOLD);
-        for (int i = 0; i <= dayInMonth; i++) {
+        for (int i = 1; i <= dayInMonth; i++) {
             statusTvs[0][i].setText(String.valueOf(i));
             statusTvs[0][i].setTypeface(statusTvs[0][i].getTypeface(), Typeface.BOLD);
         }
@@ -77,9 +77,9 @@ public class SheetActivity extends AppCompatActivity {
         for (int i = 1; i < rowSize; i++) {
             rollTvs[i].setText(String.valueOf(rollArray[i - 1]));
             nameTvs[i].setText(nameArray[i - 1]);
-            for (int j = 0; j < dayInMonth; j++) {
+            for (int j = 1; j <= dayInMonth; j++) {
                 String day = String.valueOf(j);
-                if (day.length() == 1) day = "0" + i;
+                if (day.length() == 1) day = "0" + day;
                 String date = day + "-" + month;
                 String status = dbHelper.getStatus(idArray[i - 1], date);
                 statusTvs[i][j].setText(status);

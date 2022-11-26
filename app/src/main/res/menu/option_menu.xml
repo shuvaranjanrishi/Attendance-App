@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/presentAllMenu"
+        android:title="Present All"/>
+
+    <item android:id="@+id/absentAllMenu"
+        android:title="Absent All"/>
+
+    <item android:id="@+id/datePickMenu"
+        android:title="Change Date"/>
+</menu>
