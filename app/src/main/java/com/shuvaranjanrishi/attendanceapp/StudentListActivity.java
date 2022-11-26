@@ -79,8 +79,10 @@ public class StudentListActivity extends AppCompatActivity {
 
     private void onItemClick(int position) {
         Intent intent = new Intent(mActivity,StudentDetailsActivity.class);
-        intent.putExtra("ID",studentList.get(position).getSid());
-        intent.putExtra("CID",studentList.get(position).getSid());
+        intent.putExtra("SID",studentList.get(position).getSid());
+        intent.putExtra("ROLL",studentList.get(position).getRoll());
+        intent.putExtra("NAME",studentList.get(position).getName());
+        intent.putExtra("CLASS_NAME",studentList.get(position).getName());
         startActivity(intent);
     }
 

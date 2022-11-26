@@ -29,7 +29,8 @@ public class TakeAttendanceActivity extends AppCompatActivity {
     private MyCalender calender;
     //intent data
     private String className, subjectName;
-    private long cid, position;
+    private long cid;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

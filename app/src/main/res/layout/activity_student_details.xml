@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,14 +44,14 @@
 
         <ImageView
             android:layout_width="@dimen/dimen_120dp"
-            android:layout_height="@dimen/dimen_160dp"
+            android:layout_height="@dimen/dimen_120dp"
             android:layout_margin="@dimen/dimen_10dp"
             android:background="@color/white"
             android:src="@drawable/ic_baseline_person_24" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dimen_10dp"
             android:layout_marginEnd="@dimen/dimen_5dp"
             android:layout_marginBottom="@dimen/dimen_10dp"
@@ -82,35 +83,94 @@
                 android:text="Address"
                 android:textSize="@dimen/dimen_20sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/totalPresentDayTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_5dp"
-                android:text="Total Present"
-                android:textSize="@dimen/dimen_20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/totalAbsentDayTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_5dp"
-                android:text="Absent"
-                android:textSize="@dimen/dimen_20sp"
-                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_10dp"
         android:background="@color/purple_200"
         android:gravity="center"
         android:padding="@dimen/dimen_5dp"
         android:text="Attendance"
         android:textColor="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_5dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.github.lzyzsd.circleprogress.DonutProgress
+                android:id="@+id/donutProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:donut_finished_color="@color/purple_200"
+                app:donut_max="100"
+                app:donut_progress="50"
+                app:donut_text_color="@color/purple_200" />
+
+            <TextView
+                android:id="@+id/presentPercentageTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_5dp"
+                android:text="Present Percentage"
+                android:textSize="@dimen/dimen_15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/totalPresentDayTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_10dp"
+                android:text="Total Present"
+                android:textSize="@dimen/dimen_15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalAbsentDayTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_10dp"
+                android:text="Total Absent: "
+                android:textSize="@dimen/dimen_15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalClassTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_10dp"
+                android:text="Total Class: "
+                android:textSize="@dimen/dimen_15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_2dp"
+        android:background="@color/purple_200" />
+
+    <org.naishadhparmar.zcustomcalendar.CustomCalendar
+        android:id="@+id/customCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dp" />
 
 </LinearLayout>

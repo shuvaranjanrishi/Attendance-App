@@ -20,16 +20,20 @@
         <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/layout/my_confirm_dialog.xml" value="0.264" />
         <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/layout/my_dialog.xml" value="0.1671875" />
         <entry key="..\:/ShuvoBABL/Attendance-App/app/src/main/res/menu/option_menu.xml" value="0.1671875" />
+        <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/absent_view.xml" value="0.209375" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_main.xml" value="0.21" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_sheet.xml" value="0.33" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_sheet_list.xml" value="0.209375" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_student_details.xml" value="0.209375" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_student_list.xml" value="0.209375" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/activity_students.xml" value="0.25" />
+        <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/current_view.xml" value="0.209375" />
+        <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/default_view.xml" value="0.33" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/item_class.xml" value="0.33" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/item_sheet_list.xml" value="0.209375" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/item_student.xml" value="0.33" />
         <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/my_dialog.xml" value="0.21" />
+        <entry key="..\:/Users/USER/StudioProjects/MyApp/AttendanceApp/app/src/main/res/layout/present_view.xml" value="0.209375" />
       </map>
     </option>
   </component>
