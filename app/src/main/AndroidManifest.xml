@@ -14,6 +14,9 @@
         android:theme="@style/Theme.AttendanceApp"
         tools:targetApi="31">
         <activity
+            android:name=".StudentDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".StudentListActivity"
             android:exported="false" />
         <activity

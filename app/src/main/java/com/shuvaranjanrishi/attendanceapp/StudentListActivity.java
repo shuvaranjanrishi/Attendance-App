@@ -76,7 +76,10 @@ public class StudentListActivity extends AppCompatActivity {
     }
 
     private void onItemClick(int position) {
-
+        Intent intent = new Intent(mActivity,StudentDetailsActivity.class);
+        intent.putExtra("ID",studentList.get(position).getSid());
+        intent.putExtra("CID",studentList.get(position).getSid());
+        startActivity(intent);
     }
 
     private void initListener() {
