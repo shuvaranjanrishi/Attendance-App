@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StudentDetailsActivity extends AppCompatActivity {
 
@@ -26,11 +27,9 @@ public class StudentDetailsActivity extends AppCompatActivity {
 
     private Activity mActivity;
     private ImageButton backBtn;
-    private TextView titleTv, dateTv,rollTv,nameTv, totalPresentDayTv, totalAbsentDayTv, totalClassTv;
+    private TextView titleTv, dateTv, rollTv, nameTv, totalPresentDayTv, totalAbsentDayTv, totalClassTv;
     private DonutProgress donutProgress;
-    private List<String> dateList;
     private MyDBHelper dbHelper;
-    private MyCalender myCalender;
     private CustomCalendar customCalendar;
     //intent data
     private String name, className;
@@ -48,11 +47,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
 
         getIntentData();
 
-//        getDateList();
-
         setCalender();
-
-        populateListView();
 
         initListeners();
     }
@@ -80,12 +75,6 @@ public class StudentDetailsActivity extends AppCompatActivity {
         descHashmap.put("absent", absentProperty);
 
         customCalendar.setMapDescToProp(descHashmap);
-//        customCalendar.setOnNavigationButtonClickedListener(1, new OnNavigationButtonClickedListener() {
-//            @Override
-//            public Map<Integer, Object>[] onNavigationButtonClicked(int whichButton, Calendar newMonth) {
-//                return new Map[0];
-//            }
-//        });
 
         HashMap<Integer, Object> dateHashmap = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
@@ -95,8 +84,6 @@ public class StudentDetailsActivity extends AppCompatActivity {
         for (int j = 1; j <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); j++) {
             String day = String.valueOf(j);
             if (day.length() == 1) day = "0" + day;
-//            String date = day + "-" + month;
-//            calender
             String date = day + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR);
             String status = dbHelper.getStatus(sid, date);
 
@@ -113,12 +100,6 @@ public class StudentDetailsActivity extends AppCompatActivity {
             }
         }
 
-        dateHashmap.put(calendar.get(Calendar.DAY_OF_MONTH), "current");
-//        dateHashmap.put(1,"default");
-//        dateHashmap.put(2,"present");
-//        dateHashmap.put(3,"absent");
-        customCalendar.setDate(calendar, dateHashmap);
-
         totalPresentDayTv.setText("Total Present: " + totalPresent);
         totalAbsentDayTv.setText("Total Absent: " + totalAbsent);
         totalClassTv.setText("Total Class: " + totalClass);
@@ -127,24 +108,48 @@ public class StudentDetailsActivity extends AppCompatActivity {
 
     }
 
+    private Map<Integer, Object>[] loadStatusInCalender(Calendar newMonth) {
+        Map<Integer, Object>[] arr = new Map[2];
+        arr[0] = new HashMap<>();
+
+        int totalClass = 0, totalPresent = 0, totalAbsent = 0;
+
+        for (int j = 1; j <= newMonth.getActualMaximum(Calendar.DAY_OF_MONTH); j++) {
+            String day = String.valueOf(j);
+            if (day.length() == 1) day = "0" + day;
+            String date = day + "-" + (newMonth.get(Calendar.MONTH) + 1) + "-" + newMonth.get(Calendar.YEAR);
+            String status = dbHelper.getStatus(sid, date);
+            Log.d(TAG, "sid: " + sid + " status: " + status + " day: " + j + " date: " + date);
+            if (status == null) arr[0].put(Calendar.DAY_OF_MONTH, "default");
+            else if (status.equals("P")) {
+                totalClass++;
+                totalPresent++;
+                arr[0].put(j, "present");
+            } else {
+                totalClass++;
+                totalAbsent++;
+                arr[0].put(j, "absent");
+            }
+        }
+        arr[0].put(newMonth.get(Calendar.DAY_OF_MONTH), "current");
+        customCalendar.setDate(newMonth, arr[0]);
+
+        totalPresentDayTv.setText("Total Present: " + totalPresent);
+        totalAbsentDayTv.setText("Total Absent: " + totalAbsent);
+        totalClassTv.setText("Total Class: " + totalClass);
+        float totalPercentage = ((Float.valueOf(totalPresent) / Float.valueOf(totalClass)) * 100);
+        donutProgress.setProgress(Float.parseFloat(new DecimalFormat("0.00").format(totalPercentage)));
+
+        return arr;
+    }
+
     private void getIntentData() {
         sid = getIntent().getLongExtra("SID", -1);
         roll = getIntent().getIntExtra("ROLL", -1);
         name = getIntent().getStringExtra("NAME");
 
-        rollTv.setText(""+roll);
-        nameTv.setText(""+name);
-    }
-
-//    private void getDateList() {
-//        Cursor cursor = dbHelper.getDistinctMonths(cid);
-//        while (cursor.moveToNext()) {
-//            @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex("STATUS_DATE"));
-//            dateList.add(date.substring(3));
-//        }
-//    }
-
-    private void populateListView() {
+        rollTv.setText("" + roll);
+        nameTv.setText("" + name);
     }
 
     private void initViews() {
@@ -163,23 +168,25 @@ public class StudentDetailsActivity extends AppCompatActivity {
     private void initVariables() {
         mActivity = StudentDetailsActivity.this;
         dbHelper = new MyDBHelper(mActivity);
-        myCalender = new MyCalender();
-        dateList = new ArrayList();
     }
 
     private void initListeners() {
         backBtn.setOnClickListener(v -> onBackPressed());
-    }
 
-    private void openSheetActivity(int position) {
-        long[] idArray = getIntent().getLongArrayExtra("idArray");
-        long[] rollArray = getIntent().getLongArrayExtra("rollArray");
-        String[] nameArray = getIntent().getStringArrayExtra("nameArray");
-        Intent intent = new Intent(mActivity, SheetActivity.class);
-        intent.putExtra("idArray", idArray);
-        intent.putExtra("rollArray", rollArray);
-        intent.putExtra("nameArray", nameArray);
-        intent.putExtra("month", dateList.get(position));
-        startActivity(intent);
+        customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.PREVIOUS, (whichButton, newMonth) -> {
+
+            Log.e(TAG, "PREVIOUS,whichButton : " + whichButton);
+            Log.e(TAG, "newMonth : " + newMonth);
+
+            return loadStatusInCalender(newMonth);
+        });
+
+        customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.NEXT, (whichButton, newMonth) -> {
+
+            Log.e(TAG, "NEXT,whichButton : " + whichButton);
+            Log.e(TAG, "newMonth : " + newMonth);
+
+            return loadStatusInCalender(newMonth);
+        });
     }
 }

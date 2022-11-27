@@ -168,6 +168,7 @@
         android:background="@color/purple_200" />
 
     <org.naishadhparmar.zcustomcalendar.CustomCalendar
+        android:layout_margin="@dimen/dimen_5dp"
         android:id="@+id/customCalendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
