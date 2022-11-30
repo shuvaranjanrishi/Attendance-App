@@ -123,9 +123,12 @@ public class StudentDetailsActivity extends AppCompatActivity {
         totalPresentDayTv.setText("Total Present: " + totalPresent);
         totalAbsentDayTv.setText("Total Absent: " + totalAbsent);
         totalClassTv.setText("Total Class: " + totalClass);
-        float totalPercentage = ((Float.valueOf(totalPresent) / Float.valueOf(totalClass)) * 100);
-        donutProgress.setProgress(Float.parseFloat(new DecimalFormat("0.00").format(totalPercentage)));
-
+        if (totalClass > 0) {
+            float totalPercentage = ((Float.valueOf(totalPresent) / Float.valueOf(totalClass)) * 100);
+            donutProgress.setProgress(Float.parseFloat(new DecimalFormat("0.00").format(totalPercentage)));
+        } else {
+            donutProgress.setProgress(0);
+        }
     }
 
     private Map<Integer, Object>[] loadStatusInCalender(Calendar newMonth) {
@@ -169,8 +172,12 @@ public class StudentDetailsActivity extends AppCompatActivity {
         totalPresentDayTv.setText("Total Present: " + totalPresent);
         totalAbsentDayTv.setText("Total Absent: " + totalAbsent);
         totalClassTv.setText("Total Class: " + totalClass);
-        float totalPercentage = ((Float.valueOf(totalPresent) / Float.valueOf(totalClass)) * 100);
-        donutProgress.setProgress(Float.parseFloat(new DecimalFormat("0.00").format(totalPercentage)));
+        if (totalClass > 0) {
+            float totalPercentage = ((Float.valueOf(totalPresent) / Float.valueOf(totalClass)) * 100);
+            donutProgress.setProgress(Float.parseFloat(new DecimalFormat("0.00").format(totalPercentage)));
+        } else {
+            donutProgress.setProgress(0);
+        }
 
         return arr;
     }
