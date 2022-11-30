@@ -1,7 +1,6 @@
 package com.shuvaranjanrishi.attendanceapp;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -15,10 +14,8 @@ import org.naishadhparmar.zcustomcalendar.CustomCalendar;
 import org.naishadhparmar.zcustomcalendar.Property;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class StudentDetailsActivity extends AppCompatActivity {
@@ -74,12 +71,24 @@ public class StudentDetailsActivity extends AppCompatActivity {
         absentProperty.dateTextViewResource = R.id.textview;
         descHashmap.put("absent", absentProperty);
 
+        Property currentAndPresentProperty = new Property();
+        currentAndPresentProperty.layoutResource = R.layout.current_and_present_view;
+        currentAndPresentProperty.dateTextViewResource = R.id.textview;
+        descHashmap.put("currentAndPresent", currentAndPresentProperty);
+
+        Property currentAndAbsentProperty = new Property();
+        currentAndAbsentProperty.layoutResource = R.layout.current_and_absent_view;
+        currentAndAbsentProperty.dateTextViewResource = R.id.textview;
+        descHashmap.put("currentAndAbsent", currentAndAbsentProperty);
+
         customCalendar.setMapDescToProp(descHashmap);
 
         HashMap<Integer, Object> dateHashmap = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
 
         int totalClass = 0, totalPresent = 0, totalAbsent = 0;
+        String cDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "".length() == 1 ? "0" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) : Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "";
+        String currentDate = cDay + "-" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-" + Calendar.getInstance().get(Calendar.YEAR);
 
         for (int j = 1; j <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); j++) {
             String day = String.valueOf(j);
@@ -89,16 +98,27 @@ public class StudentDetailsActivity extends AppCompatActivity {
 
             Log.d(TAG, "sid: " + sid + " status: " + status + " day: " + j + " date: " + date);
             if (status == null) dateHashmap.put(Calendar.DAY_OF_MONTH, "default");
-            else if (status.equals("P")) {
-                totalClass++;
-                totalPresent++;
-                dateHashmap.put(j, "present");
-            } else {
-                totalClass++;
-                totalAbsent++;
-                dateHashmap.put(j, "absent");
+            else {
+                if (status.equals("P")) {
+                    totalClass++;
+                    totalPresent++;
+                    dateHashmap.put(j, "present");
+                }
+                if (status.equals("A")) {
+                    totalClass++;
+                    totalAbsent++;
+                    dateHashmap.put(j, "absent");
+                }
+                if (date.equals(currentDate) && status.equals("P")) {
+                    dateHashmap.put(j, "currentAndPresent");
+                }
+                if (date.equals(currentDate) && status.equals("A")) {
+                    dateHashmap.put(j, "currentAndAbsent");
+                }
             }
         }
+
+        customCalendar.setDate(calendar, dateHashmap);
 
         totalPresentDayTv.setText("Total Present: " + totalPresent);
         totalAbsentDayTv.setText("Total Absent: " + totalAbsent);
@@ -113,6 +133,8 @@ public class StudentDetailsActivity extends AppCompatActivity {
         arr[0] = new HashMap<>();
 
         int totalClass = 0, totalPresent = 0, totalAbsent = 0;
+        String cDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "".length() == 1 ? "0" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) : Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "";
+        String currentDate = cDay + "-" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-" + Calendar.getInstance().get(Calendar.YEAR);
 
         for (int j = 1; j <= newMonth.getActualMaximum(Calendar.DAY_OF_MONTH); j++) {
             String day = String.valueOf(j);
@@ -120,18 +142,28 @@ public class StudentDetailsActivity extends AppCompatActivity {
             String date = day + "-" + (newMonth.get(Calendar.MONTH) + 1) + "-" + newMonth.get(Calendar.YEAR);
             String status = dbHelper.getStatus(sid, date);
             Log.d(TAG, "sid: " + sid + " status: " + status + " day: " + j + " date: " + date);
+            Log.d(TAG, "currentDAte: " + currentDate + " date: " + date);
             if (status == null) arr[0].put(Calendar.DAY_OF_MONTH, "default");
-            else if (status.equals("P")) {
-                totalClass++;
-                totalPresent++;
-                arr[0].put(j, "present");
-            } else {
-                totalClass++;
-                totalAbsent++;
-                arr[0].put(j, "absent");
+            else {
+                if (status.equals("P")) {
+                    totalClass++;
+                    totalPresent++;
+                    arr[0].put(j, "present");
+                }
+                if (status.equals("A")) {
+                    totalClass++;
+                    totalAbsent++;
+                    arr[0].put(j, "absent");
+                }
+                if (date.equals(currentDate) && status.equals("P")) {
+                    arr[0].put(j, "currentAndPresent");
+                }
+                if (date.equals(currentDate) && status.equals("A")) {
+                    arr[0].put(j, "currentAndAbsent");
+                }
             }
         }
-        arr[0].put(newMonth.get(Calendar.DAY_OF_MONTH), "current");
+
         customCalendar.setDate(newMonth, arr[0]);
 
         totalPresentDayTv.setText("Total Present: " + totalPresent);

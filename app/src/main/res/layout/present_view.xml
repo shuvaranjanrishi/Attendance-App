@@ -7,6 +7,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:layout_centerInParent="true"
         android:layout_width="@dimen/dimen_40dp"
         android:layout_height="@dimen/dimen_30dp"
         app:cardCornerRadius="@dimen/dimen_3dp"

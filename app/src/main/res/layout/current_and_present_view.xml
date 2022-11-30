@@ -16,6 +16,7 @@
             android:layout_width="@dimen/dimen_40dp"
             android:layout_height="@dimen/dimen_30dp"
             android:layout_margin="@dimen/dimen_3dp"
+            app:cardBackgroundColor="@color/presentColor"
             app:cardCornerRadius="@dimen/dimen_3dp">
 
             <TextView
@@ -26,4 +27,5 @@
                 android:textColor="@color/black" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
+
 </RelativeLayout>
