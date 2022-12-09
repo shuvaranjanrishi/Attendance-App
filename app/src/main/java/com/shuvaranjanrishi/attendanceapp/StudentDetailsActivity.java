@@ -2,6 +2,7 @@ package com.shuvaranjanrishi.attendanceapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import org.naishadhparmar.zcustomcalendar.Property;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,16 +89,20 @@ public class StudentDetailsActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
 
         int totalClass = 0, totalPresent = 0, totalAbsent = 0;
-        String cDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "".length() == 1 ? "0" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) : Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "";
-        String currentDate = cDay + "-" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-" + Calendar.getInstance().get(Calendar.YEAR);
+
+        String currentDate = String.valueOf(DateFormat.format("dd-MM-yyyy", new Date()));
+        Log.d(TAG, "currentDate: " + currentDate);
 
         for (int j = 1; j <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); j++) {
+
             String day = String.valueOf(j);
             if (day.length() == 1) day = "0" + day;
             String date = day + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR);
             String status = dbHelper.getStatus(sid, date);
 
-            Log.d(TAG, "sid: " + sid + " status: " + status + " day: " + j + " date: " + date);
+            Log.d(TAG, "sid: " + sid + " status: " + status + " day: " + j + " date: " + date + " currentDate: " + currentDate);
+
+            if (status == null && date.equals(currentDate)) dateHashmap.put(j, "current");
             if (status == null) dateHashmap.put(Calendar.DAY_OF_MONTH, "default");
             else {
                 if (status.equals("P")) {
@@ -109,6 +115,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
                     totalAbsent++;
                     dateHashmap.put(j, "absent");
                 }
+
                 if (date.equals(currentDate) && status.equals("P")) {
                     dateHashmap.put(j, "currentAndPresent");
                 }
@@ -136,16 +143,19 @@ public class StudentDetailsActivity extends AppCompatActivity {
         arr[0] = new HashMap<>();
 
         int totalClass = 0, totalPresent = 0, totalAbsent = 0;
-        String cDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "".length() == 1 ? "0" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) : Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "";
-        String currentDate = cDay + "-" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-" + Calendar.getInstance().get(Calendar.YEAR);
+
+        String currentDate = String.valueOf(DateFormat.format("dd-MM-yyyy", new Date()));
+        Log.d(TAG, "currentDate: " + currentDate);
 
         for (int j = 1; j <= newMonth.getActualMaximum(Calendar.DAY_OF_MONTH); j++) {
+
             String day = String.valueOf(j);
             if (day.length() == 1) day = "0" + day;
             String date = day + "-" + (newMonth.get(Calendar.MONTH) + 1) + "-" + newMonth.get(Calendar.YEAR);
             String status = dbHelper.getStatus(sid, date);
-            Log.d(TAG, "sid: " + sid + " status: " + status + " day: " + j + " date: " + date);
-            Log.d(TAG, "currentDAte: " + currentDate + " date: " + date);
+            Log.d(TAG, "sid: " + sid + " status: " + status + " day: " + j + " date: " + date + " currentDate: " + currentDate);
+
+            if (status == null && date.equals(currentDate)) arr[0].put(j, "current");
             if (status == null) arr[0].put(Calendar.DAY_OF_MONTH, "default");
             else {
                 if (status.equals("P")) {
@@ -157,6 +167,9 @@ public class StudentDetailsActivity extends AppCompatActivity {
                     totalClass++;
                     totalAbsent++;
                     arr[0].put(j, "absent");
+                }
+                if (date.equals(currentDate)) {
+                    arr[0].put(j, "current");
                 }
                 if (date.equals(currentDate) && status.equals("P")) {
                     arr[0].put(j, "currentAndPresent");
