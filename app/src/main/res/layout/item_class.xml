@@ -27,18 +27,24 @@
             android:background="@color/purple_200" />
 
         <TextView
-            android:id="@+id/classNameTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Class Name"
-            android:textSize="@dimen/dimen_20sp" />
-
-        <TextView
             android:id="@+id/subjectNameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Subject Name"
             android:textSize="@dimen/dimen_15sp" />
+
+        <TextView
+            android:id="@+id/classNameTv"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:shadowRadius="20"
+            android:background="@drawable/bg_round_primary"
+            android:layout_height="wrap_content"
+            android:text="Class Name"
+            android:textSize="@dimen/dimen_20sp" />
+
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

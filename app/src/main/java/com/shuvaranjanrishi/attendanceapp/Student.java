@@ -8,12 +8,13 @@ public class Student {
 
     private long sid;
     private int roll;
-    private String name,status;
+    private String name, address, status;
 
-    public Student(long sid,int roll, String name) {
+    public Student(long sid, int roll, String name,String address) {
         this.sid = sid;
         this.roll = roll;
         this.name = name;
+        this.address = address;
         this.status = "";
     }
 
@@ -41,6 +42,14 @@ public class Student {
         this.name = name;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -52,8 +61,10 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "roll='" + roll + '\'' +
+                "sid=" + sid +
+                ", roll=" + roll +
                 ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }

@@ -38,15 +38,17 @@ public class MyDBHelper extends SQLiteOpenHelper {
     //student table
     private static final String STUDENT_TABLE_NAME = "STUDENT_TABLE";
     private static final String S_ID = "S_ID";
-    private static final String STUDENT_NAME = "STUDENT_NAME";
     private static final String STUDENT_ROLL = "STUDENT_ROLL";
+    private static final String STUDENT_NAME = "STUDENT_NAME";
+    private static final String STUDENT_ADDRESS = "STUDENT_ADDRESS";
 
     private static final String CREATE_STUDENT_TABLE =
             "CREATE TABLE IF NOT EXISTS " + STUDENT_TABLE_NAME + "("
                     + S_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + C_ID + " INTEGER NOT NULL, "
-                    + STUDENT_NAME + " TEXT NOT NULL, "
                     + STUDENT_ROLL + " INTEGER NOT NULL,"
+                    + STUDENT_NAME + " TEXT NOT NULL, "
+                    + STUDENT_ADDRESS + " TEXT NOT NULL,"
                     + " FOREIGN KEY (" + C_ID + ") REFERENCES " + CLASS_TABLE_NAME + "(" + C_ID + ")"
                     + ")";
 
@@ -123,12 +125,13 @@ public class MyDBHelper extends SQLiteOpenHelper {
     }
 
     //student crud
-    public long addStudent(long cid, int roll, String name) {
+    public long addStudent(long cid, int roll, String name,String address) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(C_ID, cid);
         values.put(STUDENT_ROLL, roll);
         values.put(STUDENT_NAME, name);
+        values.put(STUDENT_ADDRESS, address);
         return database.insert(STUDENT_TABLE_NAME, null, values);
     }
 
@@ -142,10 +145,11 @@ public class MyDBHelper extends SQLiteOpenHelper {
         return database.delete(STUDENT_TABLE_NAME, S_ID + "=?", new String[]{String.valueOf(sid)});
     }
 
-    public int updateStudent(long sid, String name) {
+    public int updateStudent(long sid, String name, String address) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(STUDENT_NAME, name);
+        values.put(STUDENT_ADDRESS, address);
         return database.update(STUDENT_TABLE_NAME, values, S_ID + "=?", new String[]{String.valueOf(sid)});
     }
 

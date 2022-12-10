@@ -8,7 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -27,9 +27,10 @@ public class MyDialog extends DialogFragment {
     public static final String STUDENT_UPDATE_DIALOG = "updateStudent";
     public static final String CONFIRM_DIALOG = "confirmDialog";
     private OnClickListener listener;
+    private OnStudentClickListener studentClickListener;
     private OnConfirmListener confirmListener;
 
-    private String text1, text2;
+    private String text1, text2, text3;
 
     public MyDialog() {
     }
@@ -39,8 +40,18 @@ public class MyDialog extends DialogFragment {
         this.text2 = text2;
     }
 
+    public MyDialog(String text1, String text2, String text3) {
+        this.text1 = text1;
+        this.text2 = text2;
+        this.text3 = text3;
+    }
+
     public interface OnClickListener {
         void onClick(String text1, String text2);
+    }
+
+    public interface OnStudentClickListener {
+        void onClick(String text1, String text2, String text3);
     }
 
     public interface OnConfirmListener {
@@ -55,10 +66,16 @@ public class MyDialog extends DialogFragment {
         this.listener = listener;
     }
 
+    public void setStudentClickListener(OnStudentClickListener studentClickListener) {
+        this.studentClickListener = studentClickListener;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = null;
+
+        assert getTag() != null;
 
         if (getTag().equals(CLASS_ADD_DIALOG)) dialog = getClassAddDialog();
         if (getTag().equals(CLASS_UPDATE_DIALOG)) dialog = getClassUpdateDialog();
@@ -71,7 +88,7 @@ public class MyDialog extends DialogFragment {
 
     private Dialog getStudentUpdateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.my_dialog, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_student_dialog, null);
         builder.setView(view);
 
         TextView titleTv = view.findViewById(R.id.titleTv);
@@ -87,6 +104,10 @@ public class MyDialog extends DialogFragment {
         nameEt.setHint("Name");
         nameEt.setText("" + text2);
 
+        EditText addressEt = view.findViewById(R.id.edittext3);
+        addressEt.setHint("Address");
+        addressEt.setText("" + text3);
+
         Button cancelBtn = view.findViewById(R.id.cancelBtn);
         Button saveBtn = view.findViewById(R.id.saveBtn);
         saveBtn.setText("Update");
@@ -96,14 +117,27 @@ public class MyDialog extends DialogFragment {
         saveBtn.setOnClickListener(view12 -> {
             String roll = rollEt.getText().toString().trim();
             String name = nameEt.getText().toString().trim();
+            String address = addressEt.getText().toString().trim();
 
-            if (listener != null) {
-                listener.onClick(roll, name);
+            if (!validate(roll, rollEt) || !validate(name, nameEt) || !validate(address, addressEt)) {
+                return;
+            }
+            if (studentClickListener != null) {
+                studentClickListener.onClick(roll, name,address);
             }
             dismiss();
         });
 
         return builder.create();
+    }
+
+    private boolean validate(String text, EditText editText) {
+        if (TextUtils.isEmpty(text)) {
+            editText.setError("Field should not be empty...");
+            editText.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     private Dialog getClassUpdateDialog() {
@@ -132,6 +166,9 @@ public class MyDialog extends DialogFragment {
             String className = classNameEt.getText().toString().trim();
             String subjectName = subjectNameEt.getText().toString().trim();
 
+            if (!validate(className, classNameEt)) {
+                return;
+            }
             if (listener != null) {
                 listener.onClick(className, subjectName);
             }
@@ -164,6 +201,9 @@ public class MyDialog extends DialogFragment {
             String className = classNameEt.getText().toString().trim();
             String subjectName = subjectNameEt.getText().toString().trim();
 
+            if (!validate(className, classNameEt)) {
+                return;
+            }
             if (listener != null) {
                 listener.onClick(className, subjectName);
             }
@@ -175,7 +215,7 @@ public class MyDialog extends DialogFragment {
 
     private Dialog getStudentAddDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.my_dialog, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_student_dialog, null);
         builder.setView(view);
 
         TextView titleTv = view.findViewById(R.id.titleTv);
@@ -186,7 +226,12 @@ public class MyDialog extends DialogFragment {
         rollEt.setHint("Roll");
 
         EditText nameEt = view.findViewById(R.id.edittext2);
+        nameEt.setInputType(InputType.TYPE_CLASS_TEXT);
         nameEt.setHint("Name");
+
+        EditText addressEt = view.findViewById(R.id.edittext3);
+        addressEt.setInputType(InputType.TYPE_CLASS_TEXT);
+        addressEt.setHint("Address");
 
         Button cancelBtn = view.findViewById(R.id.cancelBtn);
         Button saveBtn = view.findViewById(R.id.saveBtn);
@@ -196,11 +241,17 @@ public class MyDialog extends DialogFragment {
         saveBtn.setOnClickListener(view12 -> {
             String roll = rollEt.getText().toString().trim();
             String name = nameEt.getText().toString().trim();
+            String address = addressEt.getText().toString().trim();
+
+            if (!validate(roll, rollEt) || !validate(name, nameEt) || !validate(address, addressEt)) {
+                return;
+            }
             rollEt.setText(String.valueOf(Integer.parseInt(roll) + 1));
             nameEt.setText("");
+            addressEt.setText("");
 
-            if (listener != null) {
-                listener.onClick(roll, name);
+            if (studentClickListener != null) {
+                studentClickListener.onClick(roll, name,address);
             }
         });
 

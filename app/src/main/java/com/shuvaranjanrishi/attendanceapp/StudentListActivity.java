@@ -60,9 +60,10 @@ public class StudentListActivity extends AppCompatActivity {
         studentList.clear();
         while (cursor.moveToNext()) {
             long sid = cursor.getLong(0);
-            String name = cursor.getString(2);
-            int roll = cursor.getInt(3);
-            Student student = new Student(sid, roll, name);
+            int roll = cursor.getInt(2);
+            String name = cursor.getString(3);
+            String address = cursor.getString(4);
+            Student student = new Student(sid, roll, name,address);
             studentList.add(student);
         }
         Log.d(TAG, "getStudentList: " + studentList.toString());
@@ -78,11 +79,12 @@ public class StudentListActivity extends AppCompatActivity {
     }
 
     private void onItemClick(int position) {
-        Intent intent = new Intent(mActivity,StudentDetailsActivity.class);
-        intent.putExtra("SID",studentList.get(position).getSid());
-        intent.putExtra("ROLL",studentList.get(position).getRoll());
-        intent.putExtra("NAME",studentList.get(position).getName());
-        intent.putExtra("CLASS_NAME",studentList.get(position).getName());
+        Intent intent = new Intent(mActivity, StudentDetailsActivity.class);
+        intent.putExtra("SID", studentList.get(position).getSid());
+        intent.putExtra("ROLL", studentList.get(position).getRoll());
+        intent.putExtra("NAME", studentList.get(position).getName());
+        intent.putExtra("ADDRESS", studentList.get(position).getAddress());
+        intent.putExtra("CLASS_NAME", studentList.get(position).getName());
         startActivity(intent);
     }
 
@@ -94,18 +96,18 @@ public class StudentListActivity extends AppCompatActivity {
     private void showStudentAddDialog() {
         MyDialog dialog = new MyDialog();
         dialog.show(getSupportFragmentManager(), MyDialog.STUDENT_ADD_DIALOG);
-        dialog.setListener(this::addStudent);
+        dialog.setStudentClickListener(this::addStudent);
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void addStudent(String rollString, String name) {
+    private void addStudent(String rollString, String name, String address) {
         int roll = Integer.valueOf(rollString);
-        long sid = dbHelper.addStudent(cid, roll, name);
+        long sid = dbHelper.addStudent(cid, roll, name, address);
         if (sid > 0) {
-            studentList.add(new Student(sid, roll, name));
+            studentList.add(new Student(sid, roll, name,address));
             totalStudentTv.setText("Total: " + studentList.size());
             adapter.notifyDataSetChanged();
-            Log.d(TAG, "addStudent: "+studentList.toString());
+            Log.d(TAG, "addStudent: " + studentList.toString());
             Toast.makeText(mActivity, "New Student Added...", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(mActivity, "Failed to Add...", Toast.LENGTH_LONG).show();
@@ -151,11 +153,11 @@ public class StudentListActivity extends AppCompatActivity {
     private void showStudentUpdateDialog(int position) {
         MyDialog dialog = new MyDialog(String.valueOf(studentList.get(position).getRoll()), studentList.get(position).getName());
         dialog.show(getSupportFragmentManager(), MyDialog.STUDENT_UPDATE_DIALOG);
-        dialog.setListener((roll, name) -> updateStudent(position, name));
+        dialog.setStudentClickListener((roll, name, address) -> updateStudent(position, name, address));
     }
 
-    private void updateStudent(int position, String name) {
-        int rowId = dbHelper.updateStudent(studentList.get(position).getSid(), name);
+    private void updateStudent(int position, String name, String address) {
+        int rowId = dbHelper.updateStudent(studentList.get(position).getSid(), name, address);
         if (rowId > 0) {
             studentList.get(position).setName(name);
             adapter.notifyItemChanged(position);

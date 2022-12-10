@@ -51,12 +51,13 @@ public class ClassHomeActivity extends AppCompatActivity {
         studentList.clear();
         while (cursor.moveToNext()) {
             long sid = cursor.getLong(0);
-            String name = cursor.getString(2);
-            int roll = cursor.getInt(3);
-            Student student = new Student(sid, roll, name);
+            int roll = cursor.getInt(2);
+            String name = cursor.getString(3);
+            String address = cursor.getString(4);
+            Student student = new Student(sid, roll, name, address);
             studentList.add(student);
         }
-        Log.d(TAG,"getStudentList: "+studentList.toString());
+        Log.d(TAG, "getStudentList: " + studentList.toString());
         cursor.close();
     }
 

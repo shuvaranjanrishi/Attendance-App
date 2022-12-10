@@ -26,12 +26,12 @@ public class StudentDetailsActivity extends AppCompatActivity {
 
     private Activity mActivity;
     private ImageButton backBtn;
-    private TextView titleTv, dateTv, rollTv, nameTv, totalPresentDayTv, totalAbsentDayTv, totalClassTv;
+    private TextView titleTv, dateTv, rollTv, nameTv,addressTv, totalPresentDayTv, totalAbsentDayTv, totalClassTv;
     private DonutProgress donutProgress;
     private MyDBHelper dbHelper;
     private CustomCalendar customCalendar;
     //intent data
-    private String name, className;
+    private String name, address,className;
     private long sid;
     private int roll, position;
 
@@ -199,9 +199,11 @@ public class StudentDetailsActivity extends AppCompatActivity {
         sid = getIntent().getLongExtra("SID", -1);
         roll = getIntent().getIntExtra("ROLL", -1);
         name = getIntent().getStringExtra("NAME");
+        address = getIntent().getStringExtra("ADDRESS");
 
         rollTv.setText("" + roll);
         nameTv.setText("" + name);
+        addressTv.setText("" + address);
     }
 
     private void initViews() {
@@ -210,6 +212,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         rollTv = findViewById(R.id.rollTv);
         nameTv = findViewById(R.id.nameTv);
+        addressTv = findViewById(R.id.addressTv);
         donutProgress = findViewById(R.id.donutProgress);
         totalPresentDayTv = findViewById(R.id.totalPresentDayTv);
         totalAbsentDayTv = findViewById(R.id.totalAbsentDayTv);
